@@ -1,39 +1,45 @@
 {% extends "__layouts/base.django.html" %}
 
 {% block body %}
-  <div id="home-container">
-    <aside id="home-left">
-      <h3>Browse Topics</h3>
-      <div id="home-topics">
-        <ul>
-          <li>
-            <a href="{% url 'base:home' %}">All</a>
-          </li>
-          {% for topic in topics %}
-          <li>
-            <a href="{% url 'base:home' %}?q={{ topic.name }}">{{ topic.name }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </aside>
 
-    <div id="home-right">
+<div id="home-container">
+  <aside id="home-left">
+    <h3>Browse Topics</h3>
+    <div id="home-topics">
       <ul>
-        {% for room in rooms %}
-          <li>
-            <h3>@{{ room.host.username }}</h3>
-            <a href="{% url 'base:room' room.id %}">[{{ room.id }}]</a>
-            <span>{{ room.name }}</span>
-            <div>{{ room.topic.name }}</div>
-            <div>
-              <a href="{% url 'base:update-room' room.id %}">Edit</a>
-              <a href="{% url 'base:delete-room' room.id %}">Delete</a>
-            </div>
-          </li>
+        <li>
+          <a href="{% url 'base:home' %}">All</a>
+        </li>
+        {% for topic in topics %}
+        <li>
+          <a href="{% url 'base:home' %}?q={{ topic.name }}"
+            >{{ topic.name }}</a
+          >
+        </li>
         {% endfor %}
       </ul>
     </div>
+  </aside>
+
+  <div id="home-right">
+    <div>{{ roomCount }} rooms available.</div>
+
+    <ul>
+      {% for room in rooms %}
+      <li>
+        <app-room
+          data-room-id="{{ room.id }}"
+          data-room-name="{{ room.name }}"
+          data-topic-name="{{ room.topic.name }}"
+          data-host-username="{{ room.host.username }}"
+          data-page-url="{% url 'base:room' room.id %}"
+          data-update-url="{% url 'base:update-room' room.id %}"
+          data-delete-url="{% url 'base:delete-room' room.id %}"
+        ></app-room>
+      </li>
+      {% endfor %}
+    </ul>
   </div>
+</div>
 
 {% endblock %}

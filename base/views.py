@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
+from django.db.models import Q
 from .models import Room, Topic
 from .forms import RoomForm
 
@@ -13,11 +14,17 @@ def home(request: HttpRequest):
     if not q:
         rooms = Room.objects.all()
     else:
-        rooms = Room.objects.filter(topic__name__icontains=q)
+        rooms = Room.objects.filter(
+            Q(topic__name__icontains=q)
+            | Q(name__icontains=q)
+            | Q(description__icontains=q)
+        )
     topics = Topic.objects.all()
+    roomCount = rooms.count()
     context = {
         "rooms": rooms,
-        "topics": topics
+        "topics": topics,
+        "roomCount": roomCount
     }
     return renderView(request, "home", context)
 

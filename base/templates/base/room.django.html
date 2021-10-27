@@ -1,5 +1,4 @@
-{% extends '__layouts/base.django.html' %}
-
-{% block body %}
-  <p>Welcome to the {{ room.name }} room!</p>
+{% extends '__layouts/base.django.html' %} {% block body %}
+<p>Welcome to the {{ room.name }} room!</p>
+<p>{{ room.description }}</p>
 {% endblock %}
