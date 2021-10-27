@@ -1,0 +1,39 @@
+{% extends "__layouts/base.django.html" %}
+
+{% block body %}
+  <div id="home-container">
+    <aside id="home-left">
+      <h3>Browse Topics</h3>
+      <div id="home-topics">
+        <ul>
+          <li>
+            <a href="{% url 'base:home' %}">All</a>
+          </li>
+          {% for topic in topics %}
+          <li>
+            <a href="{% url 'base:home' %}?q={{ topic.name }}">{{ topic.name }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+
+    <div id="home-right">
+      <ul>
+        {% for room in rooms %}
+          <li>
+            <h3>@{{ room.host.username }}</h3>
+            <a href="{% url 'base:room' room.id %}">[{{ room.id }}]</a>
+            <span>{{ room.name }}</span>
+            <div>{{ room.topic.name }}</div>
+            <div>
+              <a href="{% url 'base:update-room' room.id %}">Edit</a>
+              <a href="{% url 'base:delete-room' room.id %}">Delete</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+{% endblock %}
