@@ -50,12 +50,12 @@ def registerUser(request):
         form = UserCreationForm(request.POST)
         if not form.is_valid():
             messages.error(request, "An error occurred during registration.")
-            return
-        user = form.save(commit=False)
-        user.username = user.username.lower()
-        user.save()
-        login(request, user)
-        return redirect("base:home")
+        else:
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect("base:home")
 
     form = UserCreationForm()
     return renderView(request, "login_register", {"page": page, "form": form})

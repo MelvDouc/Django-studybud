@@ -3,7 +3,7 @@
 {% block body %}
 
 <div id="home-container">
-  <aside id="home-left">
+  <aside class="left">
     <h3>Browse Topics</h3>
     <div id="home-topics">
       <ul>
@@ -21,12 +21,12 @@
     </div>
   </aside>
 
-  <div id="home-right">
-    <div>{{ roomCount }} rooms available.</div>
+  <div class="right">
+    <div class="room-count">{{ roomCount }} rooms available.</div>
 
     <ul>
       {% for room in rooms %}
-      <li>
+      <li class="room">
         <h3>@{{ room.host.username }}</h3>
         <a href="{% url 'base:room' room.id %}">[{{ room.id }}]</a>
         <span>{{ room.name }}</span>

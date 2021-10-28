@@ -1,0 +1,62 @@
+header {
+  $bgColor: rgb(0, 0, 102);
+  display: flex;
+  background: $bgColor;
+  background: linear-gradient(to right, $bgColor, lighten($bgColor, 5%));
+  padding: .5em;
+
+  nav {
+    @extend %full-size;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  
+    .left ul {
+      display: flex;
+      list-style: none;
+      height: 100%;
+  
+      li {
+        width: 100%;
+        @extend %grid-center;  
+
+        a {
+          color: white;
+          font-weight: bold;
+          text-decoration: none;
+          text-align: center;
+
+          &:hover {
+            color: $headerYellow;
+          }
+        }
+      }
+    }
+
+    .middle {
+      @extend %grid-center;
+      
+      form {
+        @extend %grid-center;
+        @extend %full-size;
+
+        input {
+          width: 100%;
+          padding: .2em .3em;
+          font-family: inherit;
+        }
+      }
+    }
+
+    .right {
+      color: $headerYellow;
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: flex-end;
+
+      a {
+        color: inherit;
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@media only screen and (orientation: portrait) {
+  header nav {
+    grid-template-columns: unset;
+    row-gap: .85em;
+
+    .left ul {
+      flex-flow: column nowrap;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+  
+  #home-container {
+    $padd: 2em;
+    grid-template-columns: unset;
+
+    .left {
+      padding-bottom: $padd;
+      border-bottom: 1px solid darken($mainBlue, 5%);
+    }
+
+    .right {
+      padding-top: $padd;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+@import "utils";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  @extend %main-font;
+}
+
+main {
+  
+  flex: 1;
+  padding: 1em;
+  background: $mainBlue;
+  background: radial-gradient($mainBlue 75%, lighten($mainBlue, 2.5%) 100%);
+}
+
+@import "header";
+@import "home";
+
+@import "media";

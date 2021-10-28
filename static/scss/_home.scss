@@ -1,0 +1,45 @@
+#home-container {
+  @extend %full-size;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+
+  ul {
+    list-style-type: none;
+  }
+
+  .left {
+    h3 {
+      text-transform: uppercase;
+    }
+  }
+
+  .right {
+    .room-count {
+      margin-bottom: 1em;
+    }
+
+    ul {
+      display: flex;
+      flex-flow: column wrap;
+      row-gap: 1em;
+
+      .room {
+        background: rgb(0, 51, 102);
+        color: white;
+        padding: .5em;
+        
+        h3 {
+          margin-bottom: 0.66em;
+        }
+
+        a {
+          color: inherit;
+
+          &:hover {
+            color: $headerYellow;
+          }
+        }
+      }
+    }
+  }
+}

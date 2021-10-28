@@ -1,20 +1,27 @@
 <nav>
-  <ul>
-    <li>
-      <a href="{% url 'base:home' %}">Home</a>
-    </li>
-    <li>
-      <a href="{% url 'base:create-room' %}">Create room</a>
-    </li>
-  </ul>
+  <div class="left">
+    <ul>
+      <li>
+        <a href="{% url 'base:home' %}">Home</a>
+      </li>
+      <li>
+        <a href="{% url 'base:create-room' %}">Create room</a>
+      </li>
+    </ul>
+  </div>
 
-  <form action="{% url 'base:home' %}" method="get">
-    <input type="text" placeholder="Search Rooms..." name="q" />
-  </form>
+  <div class="middle">
+    <form action="{% url 'base:home' %}" method="get">
+      <input type="text" placeholder="Search Rooms..." name="q" />
+    </form>
+  </div>
 
-  {% if request.user.is_authenticated %}
-  <a href="{% url 'base:logout' %}">Log Out</a>
-  {% else %}
-  <a href="{% url 'base:login' %}">Log In</a>
-  {% endif %}
+  <div class="right">
+    {% if request.user.is_authenticated %}
+    <p>Hello, {{request.user}}</p>
+    <a href="{% url 'base:logout' %}">Log Out</a>
+    {% else %}
+    <a href="{% url 'base:login' %}">Log In</a>
+    {% endif %}
+  </div>
 </nav>
