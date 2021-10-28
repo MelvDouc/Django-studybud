@@ -27,15 +27,16 @@
     <ul>
       {% for room in rooms %}
       <li>
-        <app-room
-          data-room-id="{{ room.id }}"
-          data-room-name="{{ room.name }}"
-          data-topic-name="{{ room.topic.name }}"
-          data-host-username="{{ room.host.username }}"
-          data-page-url="{% url 'base:room' room.id %}"
-          data-update-url="{% url 'base:update-room' room.id %}"
-          data-delete-url="{% url 'base:delete-room' room.id %}"
-        ></app-room>
+        <h3>@{{ room.host.username }}</h3>
+        <a href="{% url 'base:room' room.id %}">[{{ room.id }}]</a>
+        <span>{{ room.name }}</span>
+        <div>{{ room.topic.name }}</div>
+        {% if request.user == room.host %}
+        <div>
+          <a href="{% url 'base:update-room' room.id %}">Edit</a>
+          <a href="{% url 'base:delete-room' room.id %}">Delete</a>
+        </div>
+        {% endif %}
       </li>
       {% endfor %}
     </ul>

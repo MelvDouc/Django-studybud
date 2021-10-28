@@ -16,8 +16,19 @@
     <title>Study Bud</title>
   </head>
   <body>
-    <header>{% include "../__inc/nav.django.html" %}</header>
+    <header>
+      {% include "../__inc/nav.django.html" %}
+    </header>
 
-    {% block body %}{% endblock %}
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %}class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+    {% block body %}
+    {% endblock %}
   </body>
 </html>
