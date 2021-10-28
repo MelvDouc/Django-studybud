@@ -1,3 +1,5 @@
+from django.core.checks.messages import Error
+from django.http.request import RAISE_ERROR
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse, HttpResponseNotFound
 from django.db.models import Q
@@ -6,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Room, Topic
+from .models import Room, Topic, Message
 from .forms import RoomForm
 
 
@@ -86,7 +88,31 @@ def room(request, pk):
         room = Room.objects.get(id=pk)
     except:
         return HttpResponseNotFound(f"<h1>No room with id {pk} was found.</h1>")
-    return renderView(request, "room", {"room": room})
+
+    if request.method == "POST":
+        try:
+            body = request.POST.get("body")
+            if not body:
+                messages.error(request, "Message can't be empty.")
+                raise Error()
+            Message.objects.create(
+                user=request.user,
+                room=room,
+                body=request.POST.get("body")
+            )
+        except:
+            messages.error(request, "Message couldn't be saved.")
+        room.participants.add(request.user)
+        return redirect("base:room", pk=room.id)
+
+    roomMessages = room.message_set.all().order_by("-created")
+    participants = room.participants.all()
+    context = {
+        "room": room,
+        "roomMessages": roomMessages,
+        "participants": participants
+    }
+    return renderView(request, "room", context)
 
 
 @login_required(login_url="base:login")
@@ -143,3 +169,18 @@ def deleteRoom(request, pk):
         return redirect("base:home")
 
     return renderView(request, "delete", {"obj": room})
+
+
+@login_required(login_url="base:login")
+def deleteMessage(request, pk):
+    # try:
+    message = Message.objects.get(id=pk)
+    # except:
+    #     return HttpResponseNotFound(f"No message with id {pk} was found.")
+
+    reqUser = request.user
+    if reqUser != message.user and not reqUser.is_superuser:
+        return redirect("base:room", pk=message.room.id)
+
+    message.delete()
+    return renderView(request, "delete", {"obj": message})

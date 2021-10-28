@@ -1,4 +1,47 @@
-{% extends '__layouts/base.django.html' %} {% block body %}
-<p>Welcome to the {{ room.name }} room!</p>
-<p>{{ room.description }}</p>
+{% extends '__layouts/base.django.html' %}
+
+{% block body %}
+<div id="room-container">
+  
+  <section class="left">
+    <h2>Welcome to the {{ room.name }} room!</h2>
+    <p>{{ room.description }}</p>
+
+    <div class="comments">
+      <h3>Conversation</h3>
+
+      {% if roomMessages %}
+        {% for message in roomMessages %}
+        <div>@{{message.user}} {{message.created | timesince}}</div>
+        <div>
+          <p>{{message.body}}</p>
+          {% if message.user == request.user or request.user.is_superuser %}
+          <a href="{% url 'base:delete-message' message.id %}">&times;</a>
+          {% endif %}
+        </div>
+        {% endfor %}
+      {% endif %}
+
+      {% if request.user.is_authenticated %}
+      <div class="comment-form">
+        <form action="" method="post">
+          {% csrf_token %}
+          <input type="text" name="body" placeholder="Write your message here">
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+  
+  <section class="right">
+    <h3>Participants</h3>
+
+    {% for user in participants %}
+      <div class="participant">
+        <h3>@{{user.username}}</h3>
+      </div>
+    {% endfor %}
+  </section>
+
+</div>
 {% endblock %}

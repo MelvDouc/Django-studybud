@@ -11,6 +11,10 @@
     h3 {
       text-transform: uppercase;
     }
+
+    a {
+      color: black;
+    }
   }
 
   .right {
@@ -24,7 +28,7 @@
       row-gap: 1em;
 
       .room {
-        background: rgb(0, 51, 102);
+        background: rgb(2, 26, 50);
         color: white;
         padding: .5em;
         
